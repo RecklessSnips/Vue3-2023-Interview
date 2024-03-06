@@ -1,6 +1,14 @@
 <template lang="">
   <div class="board">
     <div class="user">
+      <div class="row">
+        <button
+          @click="restart"
+          class="col-2 align-self-start btn btn-outline-success mt-3 mb-3 fantasy"
+        >
+          Restart
+        </button>
+      </div>
       <span class="user-info"
         >Your score: <span>{{ user.score }}</span></span
       >
@@ -62,11 +70,12 @@ import useEasy from '@/hooks/useEasy'
 import useMedium from '@/hooks/useMedium'
 import useHard from '@/hooks/useHard'
 import { ref, reactive, onBeforeMount, watchEffect } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { storeToRefs } from 'pinia'
 
 let route = useRoute()
+let router = useRouter()
 let easy = ref(true)
 let medium = ref(false)
 let hard = ref(false)
@@ -112,22 +121,18 @@ watchEffect(() => {
     easy.value = true
     medium.value = false
     hard.value = false
-    console.log('Setting to easy')
   } else if (quesNum.value >= 3 && quesNum.value <= 4) {
     easy.value = false
     medium.value = true
     hard.value = false
-    console.log('Setting to medium')
   } else if (quesNum.value >= 5 && quesNum.value <= 6) {
     easy.value = false
     medium.value = false
     hard.value = true
-    console.log('Setting to hard')
   } else if (quesNum.value >= 7) {
     easy.value = false
     medium.value = false
     hard.value = false
-    console.log('Deactivating all')
   }
 })
 
@@ -137,6 +142,16 @@ const user = reactive({
   quesNumber: quesNum,
   gameDifficulty: ''
 })
+
+function restart() {
+  userStore.score = 0
+  userStore.chances = 3
+  userStore.quesNum = 0
+  userStore.clean()
+  router.replace({
+    name: 'cover'
+  })
+}
 </script>
 
 <style scoped>

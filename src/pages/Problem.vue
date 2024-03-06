@@ -205,7 +205,7 @@ onUpdated(() => {
 watchEffect(() => {
   if (quizData.length > 0) {
     // fetch again
-    console.log('quiz:------------', quizData[0])
+    console.log('quiz: ', quizData[0])
     user.gameDifficulty = quizData[0].difficulty
   }
   outOfChance()
@@ -220,6 +220,10 @@ function tryAgain() {
 }
 
 function restart() {
+  userStore.score = 0
+  userStore.chances = 3
+  userStore.quesNum = 0
+  userStore.clean()
   router.replace({
     name: 'cover'
   })
@@ -257,14 +261,6 @@ function start() {
   // if choice is wrong
   if (choice.value != quizData[0].correctAnswer) {
     computeWrong()
-    userStore.addMistake({
-      id: quizData[0].id.slice(0, 5),
-      question: quizData[0].question,
-      type: quizData[0].type,
-      difficulty: quizData[0].difficulty,
-      userAnswer: choice.value,
-      correctAnswer: quizData[0].correctAnswer
-    })
   } else {
     computeCorrect()
     if (userStore.quesNum == 6) {
@@ -304,6 +300,14 @@ function computeWrong() {
       buttonMsg.value = 'Try again'
       break
   }
+  userStore.addMistake({
+    id: quizData[0].id,
+    question: quizData[0].question,
+    type: quizData[0].type,
+    difficulty: quizData[0].difficulty,
+    userAnswer: choice.value,
+    correctAnswer: quizData[0].correctAnswer
+  })
   ifTryAgain.value = true
   ifRestart.value = false
   ifNext.value = false
@@ -343,7 +347,7 @@ function outOfChance() {
   if (userStore.chances < 1) {
     userStore.score = 0
     userStore.chances = 3
-    userStore.quesNum = 1
+    userStore.quesNum = 0
     modalTitle.value = 'OUT Of Chance'
     modalBody.value = 'Beaten by the eaisest questions? LMFAOOOO'
     buttonMsg.value = 'Restart'
@@ -352,6 +356,7 @@ function outOfChance() {
     ifNext.value = false
     ifGotoCongrats.value = false
     ifChose.value = false
+    userStore.clean()
   }
 }
 </script>
