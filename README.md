@@ -1,6 +1,6 @@
 # Vue3_Trivia_App
 
-This template should help get you started developing with Vue 3 in Vite.
+Hosted URL: https://main.d2jcegp4grsg95.amplifyapp.com/Cover
 
 ## Recommended IDE Setup
 
