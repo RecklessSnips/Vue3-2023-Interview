@@ -1,6 +1,6 @@
 # Vue3_Trivia_App
 
-Hosted URL: https://main.d2jcegp4grsg95.amplifyapp.com/Cover
+Hosted URL: https://main.d2jcegp4grsg95.amplifyapp.com/Cover (Deleted, I'm afraid it will charge me after 12 month)
 
 ## Recommended IDE Setup
 
